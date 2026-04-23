@@ -1,0 +1,26 @@
+Rental ID#Customer Email#Customer Name#Movie ID#Rental Date#Return Date#Rental Status
+21#KevinPhillips@gmail.com#Kevin Phillips#13#04/01/2026#04/03/2026#Late
+11#MatthewScott@gmail.com#Matthew Scott#2#04/01/2026#04/04/2026#Late
+18#KaylaPerez@gmail.com#Kayla Perez#24#04/02/2026#04/05/2026#Late
+12#OliviaGreen@gmail.com#Olivia Green#14#04/02/2026#04/06/2026#Late
+6#AmandaClark@gmail.com#Amanda Clark#3#04/03/2026#04/07/2026#Late
+15#AndrewNelson@gmail.com#Andrew Nelson#11#04/03/2026#04/05/2026#Late
+24#LaurenEvans@gmail.com#Lauren Evans#22#04/03/2026#04/06/2026#Late
+9#BrandonYoung@gmail.com#Brandon Young#25#04/04/2026#04/08/2026#Late
+23#NicholasParker@gmail.com#Nicholas Parker#19#04/04/2026#04/07/2026#Late
+3#MichaelLee@gmail.com#Michael Lee#7#04/05/2026#04/09/2026#Late
+14#SamanthaAdams@gmail.com#Samantha Adams#6#04/05/2026#04/07/2026#Late
+5#ChrisMartin@gmail.com#Chris Martin#15#04/06/2026#04/08/2026#Late
+17#TylerMitchell@gmail.com#Tyler Mitchell#21#04/06/2026#04/09/2026#Late
+20#HannahTurner@gmail.com#Hannah Turner#8#04/07/2026#04/10/2026#Late
+8#JessicaHall@gmail.com#Jessica Hall#20#04/07/2026#04/10/2026#Late
+2#SarahJones@gmail.com#Sarah Jones#4#04/08/2026#04/11/2026#Returned
+7#DanielWhite@gmail.com#Daniel White#12#04/09/2026#04/12/2026#Late
+19#JustinRoberts@gmail.com#Justin Roberts#5#04/09/2026#04/11/2026#Late
+1#BillyBob@gmail.com#Billy Bob#1#04/10/2026#04/12/2026#Returned
+13#JoshuaBaker@gmail.com#Joshua Baker#18#04/10/2026#04/13/2026#Late
+22#RachelCampbell@gmail.com#Rachel Campbell#16#04/10/2026#04/13/2026#Late
+4#EmilyDavis@gmail.com#Emily Davis#10#04/11/2026#04/13/2026#Late
+16#MeganCarter@gmail.com#Megan Carter#17#04/11/2026#04/14/2026#Late
+10#AshleyKing@gmail.com#Ashley King#9#04/12/2026#04/14/2026#Late
+25#jdiddy@gmail.com#Jim Dean#23#04/12/2026#04/15/2026#Late

@@ -1,0 +1,5 @@
+Movie ID#Title#Genre#Rental Price#Availability Status#Kiosk Location#Total Copies#Copies Available
+1#Harry Potter#Fantasy#5.99#Available#Northport#5#5
+2#Jaws#Horror#4.99#Available#Tuscaloosa#6#5
+4#Jimmy Neutron#Kids#3.99#Available#Tuscaloosa#5#5
+3#jigsaw's magical kingdom#horror#3.99#Unavailable#Tuscaloosa#6#5
