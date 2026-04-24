@@ -1,0 +1,3 @@
+Extras:
+
+1: Available Movies command for customer displays at locations that are active, excludes movies that are available but at inactive locations

@@ -1,4 +1,12 @@
 Kiosk_id#Location#Status#Num_machines#Last_service_date
-3#Muscle shoals#Inactive#5#06/09/2025
-2#Northport#Inactive#4#10/10/2025
+9#Hoover#Active#6#03/05/2025
+5#Montgomery#Active#4#02/20/2025
+6#Huntsville#Active#7#01/30/2025
 1#Tuscaloosa#Active#5#05/10/2025
+8#Florence#Active#5#04/25/2025
+4#Birmingham#Active#6#03/15/2025
+7#Decatur#Inactive#3#07/12/2025
+10#Dothan#Inactive#4#08/18/2025
+11#Los santos#Active#8#04/24/2026
+3#Muscle shoals#Active#6#04/24/2026
+2#Northport#Inactive#4#10/10/2025

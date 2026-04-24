@@ -1,5 +1,27 @@
 Movie ID#Title#Genre#Rental Price#Availability Status#Kiosk Location#Total Copies#Copies Available
 1#Harry Potter#Fantasy#5.99#Available#Northport#5#5
-2#Jaws#Horror#4.99#Available#Tuscaloosa#6#5
+2#Jaws#Horror#4.99#Available#Tuscaloosa#6#4
+3#Jigsaw's Magical Kingdom#Horror#3.99#Unavailable#Tuscaloosa#6#0
 4#Jimmy Neutron#Kids#3.99#Available#Tuscaloosa#5#5
-3#jigsaw's magical kingdom#horror#3.99#Unavailable#Tuscaloosa#6#5
+5#The Dark Knight#Action#6.99#Available#Birmingham#7#5
+6#Frozen#Kids#4.49#Available#Huntsville#6#6
+7#Inception#Sci-Fi#5.99#Available#Hoover#5#3
+8#Toy Story#Kids#3.99#Available#Florence#5#5
+9#The Matrix#Sci-Fi#5.49#Available#Decatur#4#2
+10#Titanic#Romance#4.99#Available#Montgomery#6#4
+11#Avengers Endgame#Action#6.99#Available#Birmingham#8#7
+12#The Lion King#Kids#4.49#Available#Dothan#5#5
+13#Get Out#Horror#4.99#Available#Northport#5#2
+14#Shrek#Kids#3.99#Available#Tuscaloosa#5#4
+15#Jurassic Park#Adventure#5.49#Available#Huntsville#6#5
+16#Interstellar#Sci-Fi#6.49#Available#Hoover#5#4
+17#The Conjuring#Horror#4.99#Unavailable#Decatur#5#0
+18#Moana#Kids#4.49#Available#Florence#5#5
+19#Black Panther#Action#6.99#Available#Birmingham#7#6
+20#Spider-Man#Action#5.99#Available#Montgomery#6#4
+21#Finding Nemo#Kids#3.99#Available#Dothan#5#5
+22#The Godfather#Crime#6.99#Available#Hoover#4#3
+23#A Quiet Place#Horror#4.99#Available#Northport#5#3
+24#Cars#Kids#3.99#Available#Florence#5#5
+25#Gladiator#Action#5.99#Available#Huntsville#6#4
+26#The Polar Express#Kids#7.99#Available#Tuscaloosa#5#5
