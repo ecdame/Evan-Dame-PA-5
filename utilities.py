@@ -237,9 +237,124 @@ def write_data(movies, rentals, kiosks):
         for kiosk in kiosks:
             file.write(f"{kiosk.kiosk_id}#{kiosk.location}#{kiosk.status}#{kiosk.num_machines}#{kiosk.last_service_date:%m/%d/%Y}\n")
             
-def etl(movies, rentals, kiosks):
+def process_etl_file(movies, rentals):
+    with open("etl.txt", "r") as file:
+        for line in file:
+            line = line.strip()
 
-    pass
+            if line == "":
+                continue
+
+            data = [x.strip() for x in line.split("#")]
+
+            entity = data[0].upper()
+            action = data[1].upper()
+
+            if entity == "M":
+                process_movie_etl(data, action, movies)
+
+            elif entity == "R":
+                process_rental_etl(data, action, rentals)
+
+            else:
+                print(f"Invalid entity type: {entity}")
+
+#Movie helper function for ETL processor
+def process_movie_etl(data, action, movies):
+    if action == "A":
+        movie_id = int(data[2])
+        title = data[3]
+        genre = data[4]
+        rental_price = float(data[5])
+        availability_status = data[6]
+        kiosk_location = data[7]
+        total_copies = int(data[8])
+        copies_available = int(data[9])
+
+        movies.append(Movie(
+            movie_id,
+            title,
+            genre,
+            rental_price,
+            availability_status,
+            kiosk_location,
+            total_copies,
+            copies_available
+        ))
+
+    elif action == "C":
+        movie_id = int(data[2])
+        idx = binary_search(movies, movie_id, key=lambda movie: movie.movie_id)
+
+        if idx == -1:
+            print(f"Movie ID {movie_id} not found. Change skipped.")
+            return
+
+        movies[idx].title = data[3]
+        movies[idx].genre = data[4]
+        movies[idx].rental_price = float(data[5])
+        movies[idx].availability_status = data[6]
+        movies[idx].kiosk_location = data[7]
+        movies[idx].total_copies = int(data[8])
+        movies[idx].copies_available = int(data[9])
+
+    elif action == "D":
+        movie_id = int(data[2])
+        idx = binary_search(movies, movie_id, key=lambda movie: movie.movie_id)
+
+        if idx == -1:
+            print(f"Movie ID {movie_id} not found. Delete skipped.")
+            return
+
+        movies.pop(idx)
+
+#Rental helper function for ETL processor
+def process_rental_etl(data, action, rentals):
+    if action == "A":
+        rental_id = int(data[2])
+        customer_email = data[3]
+        customer_name = data[4]
+        movie_id = int(data[5])
+        rental_date = dt.strptime(data[6], "%m/%d/%Y").date()
+        return_date = dt.strptime(data[7], "%m/%d/%Y").date()
+        rental_status = data[8]
+
+        rentals.append(Rental(
+            rental_id,
+            customer_email,
+            customer_name,
+            movie_id,
+            rental_date,
+            return_date,
+            rental_status
+        ))
+
+    elif action == "C":
+        rental_id = int(data[2])
+        rentals.sort(key=lambda rental: rental.rental_id)
+        idx = binary_search(rentals, rental_id, key=lambda rental: rental.rental_id)
+
+        if idx == -1:
+            print(f"Rental ID {rental_id} not found. Change skipped.")
+            return
+
+        rentals[idx].customer_email = data[3]
+        rentals[idx].customer_name = data[4]
+        rentals[idx].movie_id = int(data[5])
+        rentals[idx].rental_date = dt.strptime(data[6], "%m/%d/%Y").date()
+        rentals[idx].return_date = dt.strptime(data[7], "%m/%d/%Y").date()
+        rentals[idx].rental_status = data[8]
+
+    elif action == "D":
+        rental_id = int(data[2])
+        rentals.sort(key=lambda rental: rental.rental_id)
+        idx = binary_search(rentals, rental_id, key=lambda rental: rental.rental_id)
+
+        if idx == -1:
+            print(f"Rental ID {rental_id} not found. Delete skipped.")
+            return
+
+        rentals.pop(idx)
 ########################################################################
 
 def menu(movies, rentals, kiosks):
@@ -258,7 +373,7 @@ def menu(movies, rentals, kiosks):
         selection = input("\nPlease make selection: ")
 
 
-        while selection.strip().lower() not in ["manager menu", "customer menu", "save", "exit"]:
+        while selection.strip().lower() not in ["manager menu", "customer menu", "save", "etl", "exit"]:
             selection = input("Please enter a valid selection: ")
 
         match selection.strip().lower():
@@ -268,6 +383,8 @@ def menu(movies, rentals, kiosks):
                 customer_menu(movies, rentals, kiosks)
             case "save":
                 write_data(movies, rentals, kiosks)
+            case "etl":
+                process_etl_file(movies, rentals)
             case "exit":
                 write_data(movies, rentals, kiosks)
                 still_running = False

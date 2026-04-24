@@ -6,4 +6,5 @@ Extras:
 4:System prevents user from creating duplicate movie entries
 5:System prevents user from creating duplicate kiosk locations
 6:System automatically handles ID assignment for movies, rentals, and kiosks to ensure ID is unique
-
+7:User can choose how many movies/kiosks they want to see when displaying rankings by popularity and revenue
+8:Program Handles ETL file and updates movies/rentals accordingly

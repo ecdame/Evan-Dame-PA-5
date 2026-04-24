@@ -1,0 +1,10 @@
+M#A#27#Top Gun#Action#5.99#Available#Tuscaloosa#6#6
+M#C#5#The Dark Knight#Action#6.99#Available#Birmingham#7#4
+M#D#17
+R#A#12#newcustomer@email.com#New Customer#26#04/24/2026#04/26/2026#Rented
+R#C#3#ecd1221@icloud.com#Evan Dame#16#04/21/2026#04/23/2026#Returned
+R#D#8
+M#A#28#Coco#Kids#4.49#Available#Florence#5#5
+R#A#13#jdiddle@gmail.com#Joao Monteiro#7#04/24/2026#04/26/2026#Rented
+M#C#10#Titanic#Romance#4.99#Available#Montgomery#6#3
+R#C#1#ecd1221@icloud.com#Evan Dame#4#04/23/2026#04/25/2026#Returned
