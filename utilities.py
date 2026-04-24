@@ -1,6 +1,7 @@
 from datetime import datetime as dt
 from datetime import date, timedelta
 
+# Stores information about one movie.
 class Movie:
 
     def __init__(self, movie_id, title, genre, rental_price, availability_status, kiosk_location, total_copies, copies_available):
@@ -14,7 +15,7 @@ class Movie:
         self.copies_available = copies_available
 
     def get_total_rentals(self, rentals):
-        
+        # Count how many rentals belong to this movie.
         counter = 0
 
         for rental in rentals:
@@ -23,13 +24,13 @@ class Movie:
         return counter
 
     def get_total_revenue(self, rentals):
-        
+        # Revenue is based on rental count times rental price.
         revenue = self.rental_price * self.get_total_rentals(rentals)
         revenue = round(revenue, 2)
 
         return revenue
 
-
+# Stores information about one rental.
 class Rental:
 
     def __init__(self, rental_id, customer_email, customer_name, movie_id,
@@ -43,7 +44,7 @@ class Rental:
         self.rental_status = rental_status
 
     def get_movie(self, movies):
-
+        # Sort first so binary search works correctly.
         movies.sort(key = lambda Movie: Movie.movie_id)
         idx = binary_search(movies, self.movie_id, key= lambda Movie: Movie.movie_id)
         if idx == -1:
@@ -53,7 +54,7 @@ class Rental:
         return movie
     
     def get_title(self, movies):
-
+        # Look up the movie title tied to this rental.
         movies.sort(key = lambda Movie: Movie.movie_id)
         idx = binary_search(movies, self.movie_id, key= lambda Movie: Movie.movie_id)
         if idx == -1:
@@ -63,7 +64,7 @@ class Rental:
         return movie.title
     
     def get_genre(self, movies):
-
+        # Look up the movie genre tied to this rental.
         movies.sort(key = lambda Movie: Movie.movie_id)
         idx = binary_search(movies, self.movie_id, key= lambda Movie: Movie.movie_id)
         if idx == -1:
@@ -73,7 +74,7 @@ class Rental:
         return movie.genre
     
     def get_price(self, movies):
-
+        # Look up the movie price tied to this rental.
         movies.sort(key = lambda Movie: Movie.movie_id)
         idx = binary_search(movies, self.movie_id, key= lambda Movie: Movie.movie_id)
         if idx == -1:
@@ -83,7 +84,7 @@ class Rental:
         return movie.rental_price
     
     def get_location(self, movies):
-
+        # Look up the kiosk location tied to this rental.
         movies.sort(key = lambda Movie: Movie.movie_id)
         idx = binary_search(movies, self.movie_id, key= lambda Movie: Movie.movie_id)
         if idx == -1:
@@ -93,7 +94,7 @@ class Rental:
         return movie.kiosk_location
     
     
-
+# Stores information about one kiosk.
 class Kiosk:
 
     def __init__(self, kiosk_id, location, status, num_machines, last_service_date ):
@@ -108,10 +109,12 @@ class Kiosk:
         total_revenue = 0
 
         movies_at_kiosk = []
+        # Collect movie IDs stored at this kiosk.
         for movie in movies:
             if movie.kiosk_location == self.location:
                 movies_at_kiosk.append(movie.movie_id)
         
+        # Add the rental price for each matching rental.
         for rental in rentals:
             if rental.movie_id in movies_at_kiosk:
                 if rental.get_price(movies) != "Not Found":
@@ -128,11 +131,12 @@ def load_movies():
     
     with open("movies.txt", "r") as file:
 
-        #Discard first line
+        # Skip the header row.
         file.readline()
 
         for line in file:
 
+            # Ignore blank lines.
             if line.strip() == "": continue
             data = [x.strip() for x in line.split("#")]
 
@@ -155,10 +159,12 @@ def load_rentals():
     rentals = []
 
     with open("rentals.txt", "r") as file:
+        # Skip the header row.
         file.readline()
 
         for line in file:
 
+            # Ignore blank lines.
             if line.strip() == "": continue
             data = [x.strip() for x in line.split("#")]
 
@@ -170,6 +176,7 @@ def load_rentals():
             return_date = dt.strptime(data[5], r"%m/%d/%Y").date()
             rental_status = data[6]
 
+            # Update overdue rentals when data is loaded.
             if date.today() > return_date and rental_status != "Returned":
                 rental_status = "Late"
 
@@ -183,10 +190,12 @@ def load_kiosks():
     kiosks = []
 
     with open("kiosks.txt", "r") as file:
+        # Skip the header row.
         file.readline()
 
         for line in file:
 
+            # Ignore blank lines.
             if line.strip() == "": continue
             data = [x.strip() for x in line.split("#")]
 
@@ -207,14 +216,14 @@ def load_kiosks():
 def write_data(movies, rentals, kiosks):
     
     print("Saving updated data to files...")
-    #Writes the updated movies list to movies.txt
+    # Write updated movie data.
     with open("movies.txt", "w") as file:
         file.write("Movie ID#Title#Genre#Rental Price#Availability Status#Kiosk Location#Total Copies#Copies Available\n")
 
         for movie in movies:
             file.write(f"{movie.movie_id}#{movie.title}#{movie.genre}#{movie.rental_price}#{movie.availability_status}#{movie.kiosk_location}#{movie.total_copies}#{movie.copies_available}\n")
     
-    #Writes the updated rentals list to rentals.txt
+    # Write updated rental data.
     with open("rentals.txt", "w") as file:
         file.write("Rental ID#Customer Email#Customer Name#Movie ID#Rental Date#Return Date#Rental Status\n")
 
@@ -222,12 +231,7 @@ def write_data(movies, rentals, kiosks):
             file.write(f"{rental.rental_id}#{rental.customer_email}#{rental.customer_name}#{rental.movie_id}#{rental.rental_date:%m/%d/%Y}#{rental.return_date:%m/%d/%Y}#{rental.rental_status}\n")
 
     with open("kiosks.txt", "w") as file:
-        """self.kiosk_id = kiosk_id
-        self.location = location
-        self.status = status
-        self.num_machines = num_machines
-        self.last_service_date = last_service_date"""
-
+        # Write updated kiosk data.
         file.write("Kiosk_id#Location#Status#Num_machines#Last_service_date\n")
 
         for kiosk in kiosks:
@@ -240,6 +244,7 @@ def etl(movies, rentals, kiosks):
 
 def menu(movies, rentals, kiosks):
 
+    # Keep running until the user chooses to exit.
     still_running = True
     while still_running:
         print("\nMain Menu:\n")
@@ -271,16 +276,7 @@ def menu(movies, rentals, kiosks):
 #Manager menu and related functions
 def manager_menu(movies, rentals, kiosks):
 
-    """
-    Add a new movie title to the system: Done
-    Remove a movie title from the system: Done
-    Edit information about a movie (title, genre, availability, rental price, etc): Done
-    Mark a rental as returned or completed: Done
-    Manage store information (location, availability, machine status): Done
-    Access reports to monitor rentals and system activity: Done
-    Manage customer records: Done
-
-    """
+    # Keep showing manager options until the user goes back.
     still_running = True
     while still_running:
         print("\nManager Menu\n")
@@ -324,7 +320,7 @@ def manager_menu(movies, rentals, kiosks):
 def add_movie(movies, kiosks):
     print("Please fill out each field with the relevant info to add the new movie.")
 
-#Gets and verifies each data field for the new movie
+    # Get and verify the new movie fields.
     title = input("Input movie title: ")
     while title.strip() == "":
         title = input("Please input a valid movie title: ")
@@ -351,6 +347,7 @@ def add_movie(movies, kiosks):
     
     location = input("Please enter the kiosk location: ").capitalize().strip()
     valid_locations = []
+    # Build a list of valid kiosk locations.
     for kiosk in kiosks:
         if kiosk.location not in valid_locations:
             valid_locations.append(kiosk.location)
@@ -382,13 +379,13 @@ def add_movie(movies, kiosks):
         except ValueError:
             copies_available = input("Please input a valid number of available copies: ")
     
-    #Checks if the movie already exists and exits if so.
+    # Stop if the movie already exists.
     for movie in movies:
         if movie.title.strip().lower() == title.strip().lower():
             print("This movie already exists in the system!")
             return
 
-    #This section assigns a new movie ID to the movie.    
+    # Assign the next available movie ID.
     movies.sort(key = lambda Movie: Movie.movie_id)
     if len(movies) > 0:
         movie_id = movies[len(movies)-1].movie_id + 1
@@ -410,7 +407,7 @@ def remove_movie(movies):
 
 def edit_movie(movies, kiosks):
     
-    #Searches for the movie to edit.
+    # Find the movie the manager wants to edit.
     print("To edit a movie, first select the movie to edit by following the prompts below: ")
     idx = manager_search_movie(movies)
     if idx == -1:
@@ -418,17 +415,13 @@ def edit_movie(movies, kiosks):
         return
     print(f"Editing movie no. {movies[idx].movie_id}: \"{movies[idx].title}\"...")
 
-
-    #Gets and verifies edits for each instance variable stored by the movie object.
-
-    #Edits title or keeps same if user leaves field blank.
+    # Update each field only if the user enters a new value.
     title = input(f"Current title is {movies[idx].title}. To edit, enter new title, or leave blank to skip: ")
     if title.strip() == "":
         pass
     else:
         movies[idx].title = title
     
-    #Edits genre or keeps same if user leaves field blank.
     genre = input(f"Current genre is {movies[idx].genre}. To edit, enter new genre, or leave blank to skip: ")
     if genre.strip() == "":
         pass
@@ -511,10 +504,10 @@ def edit_movie(movies, kiosks):
     
 def return_rental(movies, rentals):
     
-    #Find the index of the desired rental in the rentals list, or notify user and exit if not present
+    # Ask which rental should be returned.
     rental_id = input("Please input the rental id of the rental you'd like to return: ")
     
-    #Verifies format
+    # Make sure the rental ID is valid.
     valid_rental_id_format = False
     while not valid_rental_id_format:
         try:
@@ -526,25 +519,23 @@ def return_rental(movies, rentals):
         except ValueError:
                 rental_id = input("Please enter an ID with the correct format: ")
 
-    
-    #Runs binary search for rental index position, exits if not found
+    # Sort first so binary search works correctly.
     rentals.sort(key = lambda Rental: Rental.rental_id)
     idx = binary_search(rentals, rental_id, key = lambda Rental: Rental.rental_id)
     if idx == -1:
         print("This rental could not be found.")
         return
 
-    #Check if the rental is already returned. If it has been returned, notify user and exit.
+    # Stop if the rental was already returned.
     if rentals[idx].rental_status.strip().lower() == "returned":
         print("This rental has already been returned.")
         return
 
-    #Set rental status to returned
+    # Mark the rental as returned.
     rentals[idx].rental_status = "Returned"
     print(f"Successfully returned rental with ID: {rentals[idx].rental_id}")
 
-    #Find the corresponding movie by the movie ID of the rental. If available copies is less than total copies, increment it.
-    #If the movie doesn't exist anymore, just exit.
+    # Add one copy back to the matching movie.
     movie_idx = binary_search(movies, rentals[idx].movie_id, key = lambda Movie: Movie.movie_id)
     if movie_idx == -1:
         return
@@ -555,7 +546,7 @@ def return_rental(movies, rentals):
 def add_kiosk(kiosks):
     print("\nFill out the following fields to add a new kiosk to the system:")
 
-    #Get and verify location
+    # Get and verify the kiosk location.
     location = input("Location: ").strip().title()
     while True:
 
@@ -575,12 +566,12 @@ def add_kiosk(kiosks):
                 continue
             break
     
-    #Get and verify status
+    # Get and verify the kiosk status.
     status = input("Enter Status: Active or Inactive: ").capitalize().strip()
     while status.lower() not in ["active", "inactive"]:
         status = input("Enter a valid Status: Active or Inactive: ").capitalize().strip()
 
-    #Get and verify num_machines
+    # Get and verify the number of machines.
     num_machines = input("Number of Machines: ")
     valid = False
     while valid == False:
@@ -593,7 +584,7 @@ def add_kiosk(kiosks):
         except ValueError:
             num_machines = input("Please enter a valid number of machines: ")
 
-    #Get and verify last_service_date
+    # Get and verify the last service date.
     valid = False
     while not valid:
         user_input = input("Last service date (mm/dd/yyyy): ")
@@ -607,7 +598,7 @@ def add_kiosk(kiosks):
         except ValueError:
             print("Invalid date format. Please try again.")
 
-    #Assign a unique ID   
+    # Assign the next available kiosk ID.
     kiosks.sort(key = lambda Kiosk: Kiosk.kiosk_id)
     if len(kiosks) > 0:
         kiosk_id = kiosks[len(kiosks)-1].kiosk_id + 1
@@ -633,12 +624,12 @@ def edit_kiosk_info(kiosks):
         print(f"Number of Machines: {kiosk.num_machines}")
         print(f"Last Service Date: {kiosk.last_service_date}")
 
-    #Get the ID of the kiosk the user wishes to edit, exits if the user leaves the field blank.
+    # Ask which kiosk should be edited.
     target = input("Please enter the ID of the kiosk you wish to update, or leave blank to exit: ")
     if target == "":
         return
     
-    #Verifies the ID is in the right format.
+    # Make sure the kiosk ID is valid.
     valid_target_format = False
     while valid_target_format == False:
         try:
@@ -650,7 +641,7 @@ def edit_kiosk_info(kiosks):
         except ValueError:
             target = input("Please enter a kiosk ID with the correct format: ")
 
-    #Runs a binary search to find the index of the kiosk the user wants to edit.
+    # Sort first so binary search works correctly.
     kiosks.sort(key = lambda Kiosk: Kiosk.kiosk_id)
     idx = binary_search(kiosks, target, key = lambda Kiosk: Kiosk.kiosk_id)
 
@@ -662,7 +653,7 @@ def edit_kiosk_info(kiosks):
 
     print(f"\nEditing Kiosk {kiosk.kiosk_id}...\n")
 
-    #Gets, verifies, and sets new location or skips if field is left blank
+    # Update the location if the user enters a new one.
     location = input(f"Current Location: {kiosk.location}. Enter new location or leave blank to skip: ")
     if location.strip() == "":
         pass
@@ -684,7 +675,7 @@ def edit_kiosk_info(kiosks):
             kiosk.location = location
             break
     
-    #Get, verifies, and updates status or skips if field is left blank
+    # Update the status if the user enters a new one.
     status = input(f"Current status: {kiosk.status}. Enter new updated status or leave blank to skip: ").capitalize().strip()
     if status == "":
         pass
@@ -693,7 +684,7 @@ def edit_kiosk_info(kiosks):
             status = input("Enter a valid Status: Active or Inactive: ").capitalize().strip()
         kiosk.status = status
 
-    #Gets, verifies, and sets num_machines or skips if field is left blank
+    # Update the machine count if the user enters a new one.
     num_machines = input(f"Current number of machines: {kiosk.num_machines}. Enter updated number or leave blank to skip: ")
     if num_machines == "":
         pass
@@ -710,7 +701,7 @@ def edit_kiosk_info(kiosks):
                 num_machines = input("Please enter a valid number of machines: ")
         kiosk.num_machines = num_machines
 
-    #Gets, verifies, and sets last service date or skips if field is left blank
+    # Update the service date if the user enters a new one.
     last_service_date = input(f"Current last service date: {kiosk.last_service_date}. Enter updated last service date (mm/dd/yyyy) or leave blank to skip: ")
     if last_service_date == "":
         pass
@@ -731,18 +722,9 @@ def edit_kiosk_info(kiosks):
     print(f"\nKiosk {kiosk.kiosk_id} has been succesfully updated.")
     
 def manage_customers(rentals, movies):
-
-    """self.rental_id = rental_id
-        self.customer_email = customer_email
-        self.customer_name = customer_name
-        self.movie_id = movie_id
-        self.rental_date = rental_date
-        self.return_date = return_date
-        self.rental_status = rental_status"""
-    
     print("\nCustomer Management")
 
-    #List out unique customers by name and email, ties email to name with a dictionary for later use
+    # Show each customer once and store their name for later use.
     print("\nCustomers in System: ")
     rentals.sort(key = lambda Rental: Rental.customer_name)
 
@@ -758,12 +740,12 @@ def manage_customers(rentals, movies):
             customer_emails.append(email)
             customer_names[email] = rental.customer_name.strip().title()
 
-    #Displays rental history for a customer and allows user to change their name.
+    # Show one customer's history and allow updates.
     target = input(f"To display rental history for a customer and/or edit their name, enter customer email. To exit, leave blank: ")
     if target == "":
         return
     else:
-        #Verify target email:
+        # Make sure the entered email exists.
         valid = False
         while not valid:
             target = target.lower().strip()
@@ -773,7 +755,7 @@ def manage_customers(rentals, movies):
             else:
                 target = input("Please enter a valid email: ")
 
-        #Prints out rental history
+        # Print rental history for the selected customer.
         rentals.sort(key = lambda Rental: Rental.rental_date)
         print(f"\nRental history for {customer_names[target]}: ")
 
@@ -805,13 +787,7 @@ def manage_customers(rentals, movies):
        
 #Customer Menu and Functions:     
 def customer_menu(movies, rentals, kiosks):
-    """
-    Browse Movies: 
-    Search Movies by Title or Genre: 
-    Rent Movie From Kiosk: 
-    View Rental History: 
-    Return Rented Movie: """
-    
+    # Keep showing customer options until the user goes back.
     still_running = True
     while still_running:
         print("\nCustomer Menu\n")
@@ -847,11 +823,12 @@ def list_available_movies_at_active_locations(movies, kiosks):
     print("\nMovies Available at Active Kiosk Locations:")
 
     kiosks.sort(key = lambda kiosk: kiosk.location)
-
+    # Sort by genre, then by title within each genre.
     movies.sort(key = lambda movie: movie.title)
     movies.sort(key = lambda movie: movie.genre)
 
     for movie in movies:
+        # Match each movie to its kiosk so kiosk status can be checked.
         kiosk_idx = binary_search(kiosks, movie.kiosk_location, key = lambda kiosk: kiosk.location)
         if kiosk_idx == -1:
             continue
@@ -867,12 +844,12 @@ def customer_movie_search(movies):
 
     print("\nCustomer Movie Search: ")
 
-    #Gets initial selection
+    # Ask whether to search by title or by genre.
     selection = input(f"\nTo search by title, enter \'Title\'. To search by genre. enter \'Genre\': ").strip().lower()
     while selection not in ["title", "genre"]:
         selection = input("Please make a valid selection: ").strip().lower()
 
-    #Runs a title search or genre search based on selection
+    # Run the search chosen by the user.
     movies.sort(key = lambda movie: movie.title)
     match selection:
         case "title":
@@ -909,6 +886,7 @@ def customer_movie_search(movies):
 def rent_movie(movies, rentals, kiosks):
     print("\nMovie Rental Interface")
 
+    # Get customer information.
     email = input("Enter email: ")
     while "@" not in email or "." not in email:
         email = input("Please input a valid email address: ")
@@ -920,6 +898,7 @@ def rent_movie(movies, rentals, kiosks):
     kiosk_location = input("Enter kiosk location: ")
     valid = False
 
+    # Make sure the kiosk exists and is active.
     while valid == False:
         found = False
         for kiosk in kiosks:
@@ -943,6 +922,7 @@ def rent_movie(movies, rentals, kiosks):
     valid = False
     selected_movie = None
 
+    # Make sure the movie is available at that kiosk.
     while valid == False:
         selected_movie = None
         for movie in movies:
@@ -957,15 +937,15 @@ def rent_movie(movies, rentals, kiosks):
                 print("Exiting rentals...")
                 return
 
-    #Rents the movie and updates relevant fields
+    # Finish the rental and update inventory.
     print(f"Renting {selected_movie.title} for ${selected_movie.rental_price:.2f}")
 
-    #Updates the movie object
+    # Reduce the number of available copies.
     selected_movie.copies_available = selected_movie.copies_available - 1
     if selected_movie.copies_available <= 0:
         selected_movie.availability_status = "Unavailable"
     
-    #Creates the new rental ID
+    # Create the next rental ID.
     rentals.sort(key = lambda rental: rental.rental_id)
     
     if len(rentals) > 0:
@@ -975,7 +955,7 @@ def rent_movie(movies, rentals, kiosks):
     rental = Rental(rental_id, email, name, selected_movie.movie_id, date.today(), date.today() + timedelta(days = 2), "Rented")
     rentals.append(rental)
 
-    #Prints summary
+    # Print a summary for the customer.
     print("\nRental Summary:")
     print(f"Rental ID: {rental_id}")
     print(f"Title: {selected_movie.title}")
@@ -989,13 +969,12 @@ def customer_rental_history(movies, rentals):
 
     print("\nRental History Viewer")
 
-    #Get and verify email
+    # Get and verify the customer's email.
     email = input("Enter your email: ").strip().lower()
     while "@" not in email or "." not in email:
         email = input("Enter a valid email: ").strip().lower()
 
-
-    #Find matches
+    # Find all rentals for that email.
     found_matches = []
     counter = 0
 
@@ -1004,7 +983,7 @@ def customer_rental_history(movies, rentals):
             found_matches.append(rental)
             counter += 1
 
-    #Display matches
+    # Display the matching rental records.
     print(f"\nYou have {counter} rentals in your rental history: ")
     for match in found_matches:
         print(f"\nRental ID: {match.rental_id}")
@@ -1018,6 +997,7 @@ def customer_rental_history(movies, rentals):
 #Reports Menu and Functions:
 def reports_menu(movies, rentals, kiosks):
 
+    # Keep showing report options until the user goes back.
     still_running = True
 
     while still_running:
@@ -1057,7 +1037,7 @@ def reports_menu(movies, rentals, kiosks):
 def daily_rental_report(movies, rentals):
     print("\nDaily Rental Report\n")
 
-#Get the target date and verify it.
+    # Get the report date and make sure it is valid.
     target_date = input("Please input the date you'd like to view in mm/dd/yy format or leave blank to view today's rental report: ")
     if target_date.strip().lower() == "":
         target_date = date.today()
@@ -1092,6 +1072,7 @@ def movies_currently_rented(movies, rentals):
 
     movies.sort(key = lambda movie: movie.movie_id)
     rented_movies = []
+    # Show each rented movie only once.
     for rental in rentals:
         if rental.rental_status in ["Rented", "Late"]:
             movie = rental.get_movie(movies)
@@ -1108,6 +1089,7 @@ def movies_currently_rented(movies, rentals):
 def overdue_rentals(movies, rentals):
     print("\nRentals Currently Overdue:")
 
+    # Show rentals that are currently marked late.
     for rental in rentals:
         if rental.rental_status == "Late":
             print(f"\nRental ID: {rental.rental_id}")
@@ -1131,6 +1113,7 @@ def movies_by_popularity(movies, rentals):
         except ValueError:
             count = input("Please enter a valid number of movies to display: ")
 
+    # Sort from most rentals to fewest rentals.
     movies.sort(key = lambda movie: movie.get_total_rentals(rentals), reverse = True)
     
     print(f"Top {count} movies by popularity:")
@@ -1153,6 +1136,7 @@ def movies_by_revenue(movies, rentals):
         except ValueError:
             count = input("Please enter a valid number of movies to display: ")
 
+    # Sort from highest revenue to lowest revenue.
     movies.sort(key = lambda movie: movie.get_total_revenue(rentals), reverse = True)
     
     print(f"Top {count} movies by total revenue:")
@@ -1175,6 +1159,7 @@ def kiosks_by_revenue(movies, rentals, kiosks):
         except ValueError:
             count = input("Please enter a valid number of kiosks to display: ")
 
+    # Sort from highest kiosk revenue to lowest kiosk revenue.
     kiosks.sort(key = lambda kiosk: kiosk.get_total_revenue(movies, rentals), reverse = True)
     
     print(f"Top {count} kiosks by total revenue:")
@@ -1184,6 +1169,7 @@ def kiosks_by_revenue(movies, rentals, kiosks):
 
 #General Utilities
 def binary_search(arr, target, key=lambda x: x):
+    # Search a sorted list and return the matching index.
     left, right = 0, len(arr) - 1
 
     while left <= right:
@@ -1201,6 +1187,7 @@ def binary_search(arr, target, key=lambda x: x):
 
 def manager_search_movie(movies):
 
+    # Let the manager search by ID or by title.
     search_by = input("To search by ID, enter \"ID\". To search by title, enter \"title\": ").strip().lower()
     while search_by not in ["id", "title"]:
         search_by = input("Please make a valid selection: ").strip().lower()
