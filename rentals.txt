@@ -1,12 +1,13 @@
 Rental ID#Customer Email#Customer Name#Movie ID#Rental Date#Return Date#Rental Status
-1#ecd1221@icloud.com#Evan Dame#4#04/23/2026#04/25/2026#Rented
+1#ecd1221@icloud.com#Evan Dame#4#04/23/2026#04/25/2026#Returned
 2#jdiddle@gmail.com#Joao Monteiro#15#04/23/2026#04/25/2026#Rented
 3#ecd1221@icloud.com#Evan Dame#16#04/21/2026#04/23/2026#Returned
 4#ecd1221@icloud.com#Evan Dame#22#04/23/2026#04/25/2026#Returned
 5#jdiddle@gmail.com#Joao Monteiro#18#04/23/2026#04/25/2026#Rented
 6#Wbrackin@gmail.com#William Brackin#6#04/23/2026#04/25/2026#Rented
 7#Wbrackin@gmail.com#William Brackin#8#04/23/2026#04/25/2026#Rented
-8#wbrackin@gmail.com#William Brackin#20#04/23/2026#04/25/2026#Rented
 9#ecd1221@icloud.com#Evan Dame#10#04/23/2026#04/25/2026#Rented
 10#ecd1221@icloud.com#Evan Dame#2#04/23/2026#04/25/2026#Rented
 11#ecd1221@icloud.com#Evan Dame#5#04/24/2026#04/26/2026#Rented
+12#newcustomer@email.com#New Customer#26#04/24/2026#04/26/2026#Rented
+13#jdiddle@gmail.com#Joao Monteiro#7#04/24/2026#04/26/2026#Rented

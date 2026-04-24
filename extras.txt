@@ -8,3 +8,4 @@ Extras:
 6:System automatically handles ID assignment for movies, rentals, and kiosks to ensure ID is unique
 7:User can choose how many movies/kiosks they want to see when displaying rankings by popularity and revenue
 8:Program Handles ETL file and updates movies/rentals accordingly
+9:Rentals are automatically marked late when loaded into the system if they are marked as Rented and their due date has passed.

@@ -367,6 +367,7 @@ def menu(movies, rentals, kiosks):
         print("Options:")
         print("Manager Menu: Opens the managerial section of this program.")
         print("Customer Menu: Opens the customer section of this program.")
+        print("ETL: Handle the ETL file and update the relevant data.")
         print("Save: Writes the current data to the relevant txt files.")
         print("Exit: Exit the program and save data.")
 
